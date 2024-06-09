@@ -53,11 +53,20 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     device.addCSourceFiles(.{
+        .root = b.path("src/device"),
         .files = &.{
-            "src/device/dummy.c",
-            "src/device/io/map.c",
-            "src/device/io/mmio.c",
-            "src/device/io/port-io.c",
+            "dummy.c",
+            "io/map.c",
+            "io/mmio.c",
+            "io/port-io.c",
+            "alarm.c",
+            "audio.c",
+            "disk.c",
+            "intr.c",
+            "keyboard.c",
+            "serial.c",
+            "timer.c",
+            "vga.c",
         },
     });
     device.linkLibC();
@@ -65,7 +74,7 @@ pub fn build(b: *std.Build) void {
     device.addIncludePath(b.path("src/isa/riscv32/include"));
     device.addIncludePath(b.path("src/isa/riscv32/local-include"));
     device.defineCMacro("__GUEST_ISA__", "riscv32");
-    device.linkSystemLibrary("SDL2");
+    device.linkSystemLibrary("SDL2"); // FIXME: SDL2 still cannot be linked to nemu on macOS
     device.linkSystemLibrary("readline");
 
     const nemu = b.addExecutable(.{
