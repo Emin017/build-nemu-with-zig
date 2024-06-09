@@ -11,15 +11,15 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    riscv32.addCSourceFiles(.{ .files = &.{
-        "src/isa/riscv32/reg.c",
-        "src/isa/riscv32/init.c",
-        "src/isa/riscv32/logo.c",
-        "src/isa/riscv32/reg.c",
-        "src/isa/riscv32/inst.c",
-        "src/isa/riscv32/difftest/dut.c",
-        "src/isa/riscv32/system/mmu.c",
-        "src/isa/riscv32/system/intr.c",
+    riscv32.addCSourceFiles(.{ .root = b.path("src/isa/riscv32"), .files = &.{
+        "reg.c",
+        "init.c",
+        "logo.c",
+        "reg.c",
+        "inst.c",
+        "difftest/dut.c",
+        "system/mmu.c",
+        "system/intr.c",
     } });
     riscv32.linkLibC();
     riscv32.addIncludePath(b.path("include"));
